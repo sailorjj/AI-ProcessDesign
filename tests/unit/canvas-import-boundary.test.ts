@@ -35,6 +35,10 @@ const FORBIDDEN = [
     /^server-only$/,
 ]
 
+// WHY: Windows 下 readdirSync/path.join 返回反斜杠，断言与 startsWith 比较
+// 用的是 POSIX 路径，统一规范化后再比较
+const toPosix = (p: string) => p.split(path.sep).join("/")
+
 function listFiles(entry: string): string[] {
     const full = path.join(root, entry)
     if (statSync(full).isFile()) return [entry]
@@ -42,6 +46,7 @@ function listFiles(entry: string): string[] {
         .map(String)
         .filter((name) => /\.tsx?$/.test(name))
         .map((name) => path.join(entry, name))
+        .map(toPosix)
 }
 
 /** Module specifiers a file imports at runtime (type-only imports do not
@@ -77,7 +82,7 @@ function resolveLocal(fromFile: string, specifier: string): string | null {
         path.join(base, "index.tsx"),
     ]) {
         if (existsSync(candidate) && statSync(candidate).isFile()) {
-            return path.relative(root, candidate)
+            return toPosix(path.relative(root, candidate))
         }
     }
     return null
@@ -108,7 +113,10 @@ describe("canvas import boundary", () => {
         expect(offending).toEqual([])
     })
 
-    it("bundles the canvas components without the chat", async () => {
+    // WHY: Windows 冷启动 esbuild 首次加载超过默认 5s 超时，放宽到 60s
+    it("bundles the canvas components without the chat", {
+        timeout: 60000,
+    }, async () => {
         const result = await build({
             entryPoints: [
                 "components/canvas/canvas-stage.tsx",

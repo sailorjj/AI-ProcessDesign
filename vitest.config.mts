@@ -9,5 +9,8 @@ export default defineConfig({
         include: ["tests/**/*.test.{ts,tsx}"],
         // vi.stubEnv values are undone after each test
         unstubEnvs: true,
+        // WHY: Windows 机器上 esbuild 冷启动与 jsdom 环境初始化会超过默认 5s
+        // 单测超时，放宽到 30s（慢机器兼容，测试本身仍是毫秒级）
+        testTimeout: 30000,
     },
 })
