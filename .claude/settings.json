@@ -1,0 +1,13 @@
+{
+  "extraKnownMarketplaces": {
+    "devkit-plugins": {
+      "source": {
+        "source": "local",
+        "path": "D:\\sailor-workspace\\claude-project\\devkit-plugins"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "devkit@devkit-plugins": true
+  }
+}

@@ -46,7 +46,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 push-via-ec2.sh
-.claude/
+# .claude/  ← WHY: 本项目接入 devkit 插件配置，需入库共享
 .playwright-mcp/
 # Cloudflare
 .dev.vars
@@ -67,7 +67,7 @@ public/drawio/
 *.rpm
 *.snap
 
-CLAUDE.md
+# CLAUDE.md  ← WHY: 项目级规范是核心资产，需入库
 .spec-workflow
 
 # edgeone
