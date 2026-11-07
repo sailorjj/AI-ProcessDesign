@@ -47,6 +47,9 @@ yarn-error.log*
 next-env.d.ts
 push-via-ec2.sh
 # .claude/  ← WHY: 本项目接入 devkit 插件配置，需入库共享
+# WHY: 但模型配置变体与本地覆盖含 API Token，公开 fork 绝不能入库
+.claude/settings.local.json
+.claude/settings.json.*
 .playwright-mcp/
 # Cloudflare
 .dev.vars
